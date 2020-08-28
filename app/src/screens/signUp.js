@@ -26,13 +26,6 @@ const SignUp = () => {
           padding: "90px 70px",
         }}
       >
-        <img
-          src={""}
-          style={{
-            margin: "0 auto 45px",
-            display: "block",
-          }}
-        />
         <h2
           style={{
             fontSize: 33,
