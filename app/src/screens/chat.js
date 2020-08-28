@@ -8,9 +8,14 @@ import {
 } from "../components";
 import { Row, Col, Typography, Input } from "antd";
 import { SendOutlined } from "@ant-design/icons";
+import Services from "../services/API";
 
 const { Title, Text } = Typography;
 const Chat = () => {
+  const test = async () => {
+    await Services.test();
+  };
+  test();
   return (
     <Layout>
       <div style={{ height: "inherit" }}>
