@@ -14,5 +14,4 @@ Additional API Required:
 - [] BACKUP Chat API, where he can take the full backup of his chat with the user id and message
 - [] Reset Profile API, which deletes all the messages for him but not for the receiver.
 
-Design refrence:
-[a link](https://dribbble.com/shots/3223546-CRM-Dashboard-Contact-screen)
+[Design refrence](https://dribbble.com/shots/3223546-CRM-Dashboard-Contact-screen)
