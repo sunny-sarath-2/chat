@@ -8,6 +8,7 @@ const Header = ({}) => {
         width: "calc(100% - 80px)",
         position: "fixed",
         background: "#fff",
+        borderBottom: "1px solid #000",
       }}
     >
       Header

@@ -1,7 +1,7 @@
 import React from "react";
 import { Input, Button, Form, Row, Col } from "antd";
 
-const Login = () => {
+const SignUp = () => {
   const [form] = Form.useForm();
 
   return (
@@ -42,7 +42,7 @@ const Login = () => {
             marginBottom: 40,
           }}
         >
-          Sign in to your account
+          Create your account
         </h2>
         <Form
           style={{
@@ -56,16 +56,37 @@ const Login = () => {
           <Row gutter={16}>
             <Col span={24}>
               <Form.Item
+                name="userName"
+                label=""
+                rules={[
+                  {
+                    type: "string",
+                    message: " ",
+                    required: true,
+                  },
+                ]}
+              >
+                <Input
+                  autoFocus={true}
+                  placeholder={"Username"}
+                  size={"large"}
+                  // suffix={<BreezeIcon name='UserOutlined' />}
+                  style={{
+                    padding: "7px 20px",
+                    borderRadius: 4,
+                  }}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item
                 name="email"
                 label=""
                 rules={[
                   {
                     type: "email",
                     message: " ",
-                  },
-                  {
                     required: true,
-                    message: " ",
                   },
                 ]}
               >
@@ -117,23 +138,14 @@ const Login = () => {
                   background: "linear-gradient(to right, #ef8564, #ea63a2)",
                 }}
               >
-                Log in
+                Sign Up
               </Button>
             </Col>
           </Row>
         </Form>
-        <div
-          style={{
-            textAlign: "center",
-            display: "block",
-            marginTop: 25,
-          }}
-        >
-          <a href="#">Forgot your password?</a>
-        </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default SignUp;

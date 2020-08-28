@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Chat from "./screens/chat";
 import Home from "./screens/home";
 import Login from "./screens/login";
+import SignUp from "./screens/signUp";
 import "antd/dist/antd.css";
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
         <Route path="/" exact component={Home} />
         <Route path="/chat" exact component={Chat} />
         <Route path="/login" exact component={Login} />
+        <Route path="/sign-up" exact component={SignUp} />
         <Route path="*" component={Login} />
       </Switch>
     </Router>
