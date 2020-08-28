@@ -9,13 +9,24 @@ import {
 import { Row, Col, Typography, Input } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import Services from "../services/API";
+import { socketConnect } from "socket.io-react";
 
 const { Title, Text } = Typography;
-const Chat = () => {
-  const test = async () => {
-    await Services.test();
-  };
-  test();
+const Chat = (props) => {
+  props.socket.on("provideUser", () => {
+    props.socket.emit("provideUser", localStorage.getItem("id"));
+  });
+
+  setTimeout(() => {
+    props.socket.emit("chat", {
+      to_id: localStorage.getItem("id"),
+      payload: { test: localStorage.getItem("id") },
+    });
+  }, 2000);
+
+  props.socket.on("chat", (payload) => {
+    console.log(payload);
+  });
   return (
     <Layout>
       <div style={{ height: "inherit" }}>
@@ -96,4 +107,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default socketConnect(Chat);

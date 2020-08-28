@@ -1,6 +1,6 @@
 import React from "react";
 import { Input, Button, Form, Row, Col } from "antd";
-
+import { Link } from "react-router-dom";
 const SignUp = () => {
   const [form] = Form.useForm();
 
@@ -136,6 +136,15 @@ const SignUp = () => {
             </Col>
           </Row>
         </Form>
+        <div
+          style={{
+            textAlign: "center",
+            display: "block",
+            marginTop: 25,
+          }}
+        >
+          <Link to="/login">Login</Link>
+        </div>
       </div>
     </div>
   );

@@ -1,8 +1,29 @@
 import React from "react";
-import { Input, Button, Form, Row, Col } from "antd";
+import { Input, Button, Form, Row, Col, notification } from "antd";
+import Services from "../services/API";
+import { useHistory, Link } from "react-router-dom";
 
 const Login = () => {
   const [form] = Form.useForm();
+  const history = useHistory();
+
+  const onSubmit = React.useCallback(async () => {
+    try {
+      const result = await Services.login({
+        user_email: form.getFieldValue("email"),
+        user_password: form.getFieldValue("password"),
+      });
+      localStorage.setItem("user", JSON.stringify(result?.result?.user));
+      localStorage.setItem("accessToken", result?.result?.accessToken);
+      history.push("/");
+    } catch (error) {
+      console.log(error.response);
+      notification.error({
+        message: "Login failed",
+        description: error?.response?.message,
+      });
+    }
+  }, []);
 
   return (
     <div
@@ -101,6 +122,7 @@ const Login = () => {
                 htmlType="submit"
                 onClick={(e) => {
                   e.preventDefault();
+                  onSubmit();
                 }}
                 type="primary"
                 size="large"
@@ -123,6 +145,15 @@ const Login = () => {
           }}
         >
           <a href="#">Forgot your password?</a>
+        </div>
+        <div
+          style={{
+            textAlign: "center",
+            display: "block",
+            marginTop: 25,
+          }}
+        >
+          <Link to="/sign-up">Create New Account</Link>
         </div>
       </div>
     </div>

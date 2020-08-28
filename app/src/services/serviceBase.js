@@ -18,7 +18,7 @@ async function checkStatus(response) {
 }
 
 function getJwtToken() {
-  return "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjpbeyJfaWQiOiI1ZDg1MjQ3ZDMxNjA3MDRjYzVjNWE5MmYiLCJ1c2VybmFtZSI6InZpc3dhbnRoIiwicGFzc3dvcmQiOiIyMDJjYjk2MmFjNTkwNzViOTY0YjA3MTUyZDIzNGI3MCIsInR5cGUiOjEsInN0YXR1cyI6dHJ1ZSwiX192IjowfV0sImlhdCI6MTU2OTkzODc4NSwiZXhwIjoxNTY5OTQyMzg1fQ.oyt3cI-Ut3gpLYQ7bzBF1KIbOfxv9ee2QBw85yizafI";
+  return localStorage.getItem("accessToken");
 }
 
 function getHeaders(url) {

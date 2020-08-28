@@ -2,11 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import io from "socket.io-client";
+import { SocketProvider } from "socket.io-react";
+
+const socket = io.connect("http://localhost:8081/", {
+  test: "qwe",
+});
 
 ReactDOM.render(
-  <React.StrictMode>
+  <SocketProvider socket={socket}>
     <App />
-  </React.StrictMode>,
+  </SocketProvider>,
   document.getElementById("root")
 );
 

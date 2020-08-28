@@ -4,10 +4,7 @@ let router = express.Router();
 const authentication = require("./api/authentication.routes");
 router.use("/authentication", authentication);
 
-router.get("/test", (req, res) => {
-  res.json({
-    test: "test",
-  });
-});
+const users = require("./api/user.routes");
+router.use("/user", users);
 
 module.exports = router;
