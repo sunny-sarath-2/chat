@@ -3,7 +3,7 @@ import { Search } from "../search/search";
 import { Button } from "../button/button";
 import { UserItem } from "../userItem/userItem";
 
-export const UserList = () => {
+export const UserList = ({ users, ...props }) => {
   return (
     <>
       <div style={{ display: "flex", height: 40, alignItems: "center" }}>
@@ -16,20 +16,15 @@ export const UserList = () => {
           height: "100%",
         }}
       >
-        <UserItem />
-        <UserItem />
-        <UserItem />
-        <UserItem />
-        <UserItem />
-        <UserItem />
-        <UserItem />
-        <UserItem />
-        <UserItem />
-        <UserItem />
-        <UserItem />
-        <UserItem />
-        <UserItem />
-        <UserItem />
+        {users.map((user, index) => (
+          <UserItem
+            key={index}
+            setCurrentMessage={props.setCurrentMessage}
+            name={user.user_name}
+            lastSeen={user.last_access_date}
+            user={user}
+          />
+        ))}
       </div>
     </>
   );

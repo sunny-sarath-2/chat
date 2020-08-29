@@ -47,3 +47,7 @@ exports.generateToken = (result) => {
     console.log(err);
   }
 };
+
+exports.decodeJWT = (token) => {
+  return jwt.decode(token, "secret");
+};

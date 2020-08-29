@@ -2,10 +2,16 @@ import React from "react";
 import { Input, Button, Form, Row, Col, notification } from "antd";
 import Services from "../services/API";
 import { useHistory, Link } from "react-router-dom";
+import { appController } from "../common/appController";
+const { verifyToken } = appController;
 
 const Login = () => {
   const [form] = Form.useForm();
   const history = useHistory();
+
+  React.useEffect(() => {
+    verifyToken(history);
+  }, []);
 
   const onSubmit = React.useCallback(async () => {
     try {

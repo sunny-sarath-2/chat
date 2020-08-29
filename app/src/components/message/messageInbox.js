@@ -3,7 +3,7 @@ import { Avatar } from "../avatar/avatar";
 import { Typography } from "antd";
 const { Text } = Typography;
 
-export const MessageInbox = () => {
+export const MessageInbox = ({ message }) => {
   return (
     <div
       style={{ display: "flex", flexDirection: "row", margin: 5 }}
@@ -11,7 +11,7 @@ export const MessageInbox = () => {
     >
       <Avatar />
       <div style={{ marginLeft: 10 }} className="msg-bubble">
-        <Text> Hello World</Text>
+        <Text>{message}</Text>
       </div>
     </div>
   );

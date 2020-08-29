@@ -1,7 +1,7 @@
 let User = require("../models/users.model");
 
-exports.getAllUsers = () => {
-  return User.find();
+exports.getAllUsers = (id) => {
+  return User.find({ _id: { $ne: id } });
 };
 
 exports.forgetPassword = () => {

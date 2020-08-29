@@ -3,14 +3,21 @@ const {
   createUser,
   forgetPassword,
 } = require("../services/users.services");
-const { outputFormat } = require("../common/common");
+const { outputFormat, decodeJWT } = require("../common/common");
 let Joi = require("joi");
 const md5 = require("md5");
 
 exports.getAllUsers = async (req, res) => {
-  res
-    .status(200)
-    .json(outputFormat(await getAllUsers(), "users details", 200, null));
+  try {
+    const user = decodeJWT(req.token);
+    res
+      .status(200)
+      .json(
+        outputFormat(await getAllUsers(user.data._id), "all users", 200, null)
+      );
+  } catch (error) {
+    res.status(406).json(outputFormat(null, error.message, 406, error));
+  }
 };
 
 exports.forgetPassword = async (req, res) => {

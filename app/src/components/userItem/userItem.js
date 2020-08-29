@@ -1,10 +1,23 @@
 import React from "react";
 import { Avatar } from "../avatar/avatar";
 import { Typography, Badge } from "antd";
+import { RightOutlined } from "@ant-design/icons";
+
 const { Text, Title } = Typography;
-export const UserItem = ({ name, lastSeen }) => {
+export const UserItem = ({ name, lastSeen, user, ...props }) => {
   return (
-    <div style={{ display: "flex", flexDirection: "row", padding: 5 }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        padding: 5,
+        cursor: "pointer",
+      }}
+      onClick={() => {
+        props.setCurrentMessage(user);
+        console.log("clicked", user);
+      }}
+    >
       <Avatar />
       <div style={{ marginLeft: 10 }}>
         <Title
@@ -25,7 +38,7 @@ export const UserItem = ({ name, lastSeen }) => {
           alignItems: "center",
         }}
       >
-        <Badge count={5} />
+        {props.count ? <Badge count={props.count} /> : <RightOutlined />}
       </div>
     </div>
   );
@@ -34,4 +47,5 @@ export const UserItem = ({ name, lastSeen }) => {
 UserItem.defaultProps = {
   name: "user name",
   lastSeen: "3:45 pm",
+  count: 0,
 };

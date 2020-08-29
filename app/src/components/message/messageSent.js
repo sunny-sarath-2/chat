@@ -3,7 +3,7 @@ import { Avatar } from "../avatar/avatar";
 import { Typography } from "antd";
 const { Text } = Typography;
 
-export const MessageSent = () => {
+export const MessageSent = ({ message }) => {
   return (
     <div
       style={{
@@ -15,7 +15,7 @@ export const MessageSent = () => {
       className="msg right-msg"
     >
       <div style={{ marginRight: 10 }} className="msg-bubble">
-        <Text> Hello World</Text>
+        <Text style={{ color: "#fff" }}> {message}</Text>
       </div>
       <Avatar />
     </div>

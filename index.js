@@ -34,21 +34,24 @@ const api = require("./services/routes/api.route");
 app.use("/api", api);
 
 // // web-app
-// app.get("*", (req, res) => {
-//   res.sendFile(path.resolve(__dirname + "app/build", "", "index.html"));
-// });
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname + "/app/build", "", "index.html"));
+});
 
+var users = [];
 io.on("connection", (socket) => {
-  socket.emit("provideUser", {});
-
-  socket.on("provideUser", (id) => {
+  socket.on("setUser", (id) => {
     socket.join(id);
-    socket.on("chat", ({ to_id, payload }) => {
-      io.to(to_id).emit("chat", payload);
-    });
+    users.push({ id, socketId: socket.id });
+  });
+  socket.on("chat", ({ to_id, payload }) => {
+    let user = users.filter((user) => user.id == to_id);
+    console.log(payload, user);
+
+    io.to(user[0].id).emit("sendChat", payload);
   });
   socket.on("disconnect", (data) => {
-    console.log(data);
+    console.log(socket.id);
   });
 });
 

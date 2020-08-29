@@ -1,32 +1,54 @@
 import React from "react";
-import {
-  Layout,
-  UserList,
-  Avatar,
-  MessageSent,
-  MessageInbox,
-} from "../components";
-import { Row, Col, Typography, Input } from "antd";
-import { SendOutlined } from "@ant-design/icons";
+import { Layout, UserList, MessageArea } from "../components";
+import { Row, Col, notification } from "antd";
 import Services from "../services/API";
+import { appController } from "../common/appController";
+import { useHistory } from "react-router-dom";
 import { socketConnect } from "socket.io-react";
+import { set } from "mongoose";
 
-const { Title, Text } = Typography;
+const { verifyToken } = appController;
+
 const Chat = (props) => {
-  props.socket.on("provideUser", () => {
-    props.socket.emit("provideUser", localStorage.getItem("id"));
-  });
+  const history = useHistory();
+  const [users, setUsers] = React.useState([]);
+  const [currentUser, setCurrentUser] = React.useState(null);
+  const [messagepool, setMessagePool] = React.useState([]);
 
-  setTimeout(() => {
-    props.socket.emit("chat", {
-      to_id: localStorage.getItem("id"),
-      payload: { test: localStorage.getItem("id") },
+  React.useEffect(() => {
+    let user = JSON.parse(localStorage.getItem("user"));
+    console.log("called", user);
+    props.socket.emit("setUser", user?._id);
+  }, []);
+
+  React.useEffect(() => {
+    verifyToken(history);
+  }, []);
+
+  React.useEffect(() => {
+    getAllUsers();
+
+    props.socket.on("sendChat", (payload) => {
+      payload.type = "received";
+      let newMessages = messagepool;
+      newMessages.push(payload);
+      console.log(newMessages);
+      setMessagePool(newMessages);
     });
-  }, 2000);
+  }, []);
 
-  props.socket.on("chat", (payload) => {
-    console.log(payload);
-  });
+  const getAllUsers = React.useCallback(async () => {
+    try {
+      let result = await Services.getAllUsers();
+      setUsers(result.result);
+    } catch (error) {
+      notification.error({
+        message: "Something Went Wrong",
+        description: error?.response?.message,
+      });
+    }
+  }, [users]);
+  console.log(messagepool);
   return (
     <Layout>
       <div style={{ height: "inherit" }}>
@@ -37,7 +59,12 @@ const Chat = (props) => {
               height: "calc(100vh - 120px)",
             }}
           >
-            <UserList />
+            <UserList
+              users={users}
+              setCurrentMessage={(user) => {
+                setCurrentUser(user);
+              }}
+            />
           </Col>
           <Col
             span={15}
@@ -45,61 +72,7 @@ const Chat = (props) => {
               height: "calc(100vh - 145px)",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                width: "100%",
-                height: "65px",
-                background: "#f9f9f9",
-              }}
-            >
-              <Avatar />
-              <div style={{ marginLeft: 10 }}>
-                <Title level={4} style={{ marginBottom: 0 }}>
-                  user name
-                </Title>
-                <Text type={"secondary"}>online </Text>
-              </div>
-            </div>
-            <div
-              style={{
-                overflowY: "auto",
-                height: "93%",
-              }}
-            >
-              <MessageInbox />
-              <MessageSent />
-              <MessageInbox />
-              <MessageSent />
-              <MessageInbox />
-              <MessageSent />
-              <MessageInbox />
-              <MessageSent />
-              <MessageInbox />
-              <MessageSent />
-              <MessageInbox />
-              <MessageSent />
-              <MessageInbox />
-              <MessageSent />
-              <MessageInbox />
-              <MessageSent />
-              <MessageInbox />
-              <MessageSent />
-              <MessageInbox />
-              <MessageSent />
-            </div>
-            <div style={{ position: "relative" }}>
-              <Input
-                style={{
-                  position: "absolute",
-                  bottom: -35,
-                  background: "#f9f9f9",
-                }}
-                suffix={<SendOutlined />}
-              />
-            </div>
+            {currentUser ? <MessageArea user={currentUser} /> : null}
           </Col>
         </Row>
       </div>

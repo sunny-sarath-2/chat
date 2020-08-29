@@ -1,3 +1,4 @@
+import MessageArea from "./messageArea/messageArea";
 export { Layout } from "./layout/layout";
 export { Search } from "./search/search";
 export { Button } from "./button/button";
@@ -6,3 +7,4 @@ export { UserItem } from "./userItem/userItem";
 export { UserList } from "./userList/userList";
 export { MessageInbox } from "./message/messageInbox";
 export { MessageSent } from "./message/messageSent";
+export { MessageArea };
