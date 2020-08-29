@@ -1,13 +1,15 @@
+const secrect = require("../secrect.json");
+
 module.exports = {
   errors: {
-    showDebug: false
+    showDebug: false,
   },
   database: {
-    server: "127.0.0.1:27017",
-    database: "performanceTest"
+    server: secrect.database,
+    database: "chat",
   },
 
   server: {
-    httpPort: 80
-  }
+    httpPort: 80,
+  },
 };
