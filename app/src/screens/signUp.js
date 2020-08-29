@@ -3,9 +3,17 @@ import { Input, Button, Form, Row, Col, notification } from "antd";
 import { Link, useHistory } from "react-router-dom";
 import Services from "../services/API";
 import { v4 as uuidv4 } from "uuid";
+import { appController } from "../common/appController";
+const { verifyToken } = appController;
+
 const SignUp = () => {
   const [form] = Form.useForm();
   const history = useHistory();
+
+  React.useEffect(() => {
+    verifyToken(history, true);
+  }, []);
+
   const onSubmit = React.useCallback(async () => {
     try {
       let fields = await form.validateFields();

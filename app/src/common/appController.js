@@ -2,13 +2,16 @@ import { notification } from "antd";
 import Services from "../services/API";
 
 export const appController = {
-  verifyToken: async (history) => {
+  verifyToken: async (history, login = false) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
       if (!accessToken) {
         throw "";
       }
       await Services.verifyToken();
+      if (login) {
+        history.push("/");
+      }
     } catch (error) {
       if (error) {
         notification.error({

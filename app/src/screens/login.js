@@ -10,7 +10,7 @@ const Login = () => {
   const history = useHistory();
 
   React.useEffect(() => {
-    verifyToken(history);
+    verifyToken(history, true);
   }, []);
 
   const onSubmit = React.useCallback(async () => {
@@ -143,15 +143,6 @@ const Login = () => {
             </Col>
           </Row>
         </Form>
-        <div
-          style={{
-            textAlign: "center",
-            display: "block",
-            marginTop: 25,
-          }}
-        >
-          <a href="#">Forgot your password?</a>
-        </div>
         <div
           style={{
             textAlign: "center",
