@@ -5,7 +5,7 @@ import { Typography } from "antd";
 
 const { Title, Text } = Typography;
 
-export const MessageAreaHeader = () => {
+export const MessageAreaHeader = ({ name }) => {
   return (
     <div
       style={{
@@ -20,7 +20,7 @@ export const MessageAreaHeader = () => {
       <Avatar />
       <div style={{ marginLeft: 10 }}>
         <Title level={4} style={{ marginBottom: 0 }}>
-          user name
+          {name}
         </Title>
         <Text type={"secondary"}>online </Text>
       </div>

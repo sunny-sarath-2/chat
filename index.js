@@ -46,8 +46,8 @@ io.on("connection", (socket) => {
     console.log(payload, to_id);
     io.to(to_id).emit("sendChat", payload);
     saveMessages({
-      sender_id: payload.sender,
-      reciver_id: payload.reciver,
+      sender_id: payload.sender_id,
+      reciver_id: payload.reciver_id,
       message: payload.message,
     });
   });

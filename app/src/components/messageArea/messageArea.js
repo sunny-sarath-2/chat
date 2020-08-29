@@ -5,10 +5,8 @@ import { MessageSent } from "../message/messageSent";
 import { MessageAreaHeader } from "./messageAreaHeader";
 import { MessageAreaFooter } from "./messageAreaFooter";
 import { socketConnect } from "socket.io-react";
-import { Avatar } from "../avatar/avatar";
-import { Typography } from "antd";
-const { Text } = Typography;
-
+import Services from "../../services/API";
+import { notification } from "antd";
 class MessageArea extends React.Component {
   constructor(props) {
     super(props);
@@ -18,27 +16,55 @@ class MessageArea extends React.Component {
       messages: [],
       senderId: user._id,
     };
+    this.messagesEnd = React.createRef();
+    this.getMessages = this.getMessages.bind(this);
   }
 
   componentDidMount() {
+    this.getMessages(this.props?.user?._id);
+
     this.props.socket.on("sendChat", (payload) => {
-      payload.type = "received";
       let newMessages = this.state.messages;
       newMessages.push(payload);
-      console.log(payload, this.state.senderId);
       this.setState({
         messages: newMessages,
       });
+      this.scrollToBottom();
     });
+    this.scrollToBottom();
   }
+
+  UNSAFE_componentWillUpdate(newProps) {
+    if (this.props?.user?._id !== newProps?.user?._id) {
+      this.getMessages(newProps?.user?._id);
+      this.scrollToBottom();
+    }
+  }
+
+  getMessages = async (reciver_id) => {
+    try {
+      let result = await Services.getMessageByUsers({
+        reciver_id,
+        sender_id: this.state.senderId,
+      });
+      this.setState({
+        messages: result.result,
+      });
+    } catch (error) {
+      notification.error({
+        message: "Something Went Wrong",
+        description: error?.response?.message,
+      });
+    }
+  };
+
   setSentMessage = (text) => {
     if (!!text) {
-      console.log("called", text);
       let payload = {
         type: "sent",
         message: text,
-        sender: this.state.senderId,
-        reciver: this.props?.user?._id,
+        sender_id: this.state.senderId,
+        reciver_id: this.props?.user?._id,
       };
       this.props.socket.emit("chat", {
         to_id: this.props?.user?._id,
@@ -49,14 +75,21 @@ class MessageArea extends React.Component {
       this.setState({
         messages: newMessages,
       });
+      this.scrollToBottom();
     }
+  };
+
+  scrollToBottom = () => {
+    setTimeout(() => {
+      this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+    }, 200);
   };
 
   render() {
     const { messages } = this.state;
     return (
       <>
-        <MessageAreaHeader />
+        <MessageAreaHeader name={this.props?.user?.user_name} />
         <div
           style={{
             overflowY: "auto",
@@ -65,13 +98,18 @@ class MessageArea extends React.Component {
         >
           {Array.isArray(messages)
             ? messages.map((message, index) =>
-                message?.type == "received" ? (
+                message?.reciver_id == this.state.senderId ? (
                   <MessageInbox key={index} message={message.message} />
-                ) : message?.type == "sent" ? (
+                ) : message?.sender_id == this.state.senderId ? (
                   <MessageSent key={index} message={message.message} />
                 ) : null
               )
             : null}
+          <div
+            ref={(el) => {
+              this.messagesEnd = el;
+            }}
+          ></div>
         </div>
         <MessageAreaFooter
           onSubmit={(text) => {

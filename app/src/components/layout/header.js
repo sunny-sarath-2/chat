@@ -1,7 +1,11 @@
 import React from "react";
-import { Layout } from "antd";
+import { Layout, Tooltip } from "antd";
+import { useHistory } from "react-router-dom";
+import { LogoutOutlined } from "@ant-design/icons";
+
 const { Header: AntHeader } = Layout;
-const Header = ({}) => {
+const Header = () => {
+  const history = useHistory();
   return (
     <AntHeader
       style={{
@@ -11,7 +15,17 @@ const Header = ({}) => {
         borderBottom: "1px solid #000",
       }}
     >
-      Header
+      <div style={{ float: "right" }}>
+        <Tooltip placement="bottom" title={"Logout"}>
+          <LogoutOutlined
+            style={{ fontSize: 25, cursor: "pointer" }}
+            onClick={() => {
+              localStorage.clear();
+              history.push("/login");
+            }}
+          />
+        </Tooltip>
+      </div>
     </AntHeader>
   );
 };

@@ -1,8 +1,37 @@
 import React from "react";
-import { Input, Button, Form, Row, Col } from "antd";
-import { Link } from "react-router-dom";
+import { Input, Button, Form, Row, Col, notification } from "antd";
+import { Link, useHistory } from "react-router-dom";
+import Services from "../services/API";
+import { v4 as uuidv4 } from "uuid";
 const SignUp = () => {
   const [form] = Form.useForm();
+  const history = useHistory();
+  const onSubmit = React.useCallback(async () => {
+    try {
+      let fields = await form.validateFields();
+      let result = await Services.signUp({
+        user_id: uuidv4(),
+        user_name: fields.userName,
+        user_email: fields.email,
+        user_password: fields.password,
+      });
+      if (result.status == 200) {
+        notification.success({
+          message: "Success",
+          description: "user created successfully",
+        });
+        history.push("/login");
+      }
+    } catch (error) {
+      notification.error({
+        message: "Error",
+        description: error?.errorFields
+          ? "Invalid Data Found"
+          : "something went wrong",
+      });
+      console.log(error, "error");
+    }
+  }, [form]);
 
   return (
     <div
@@ -122,6 +151,8 @@ const SignUp = () => {
                 htmlType="submit"
                 onClick={(e) => {
                   e.preventDefault();
+                  onSubmit();
+                  console.log(form.getFieldValue());
                 }}
                 type="primary"
                 size="large"

@@ -15,7 +15,6 @@ export const UserItem = ({ name, lastSeen, user, ...props }) => {
       }}
       onClick={() => {
         props.setCurrentMessage(user);
-        console.log("clicked", user);
       }}
     >
       <Avatar />

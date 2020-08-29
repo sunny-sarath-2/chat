@@ -5,7 +5,6 @@ import Services from "../services/API";
 import { appController } from "../common/appController";
 import { useHistory } from "react-router-dom";
 import { socketConnect } from "socket.io-react";
-import { set } from "mongoose";
 
 const { verifyToken } = appController;
 
@@ -13,11 +12,9 @@ const Chat = (props) => {
   const history = useHistory();
   const [users, setUsers] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState(null);
-  const [messagepool, setMessagePool] = React.useState([]);
 
   React.useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
-    console.log("called", user);
     props.socket.emit("setUser", user?._id);
   }, []);
 
@@ -27,14 +24,6 @@ const Chat = (props) => {
 
   React.useEffect(() => {
     getAllUsers();
-
-    props.socket.on("sendChat", (payload) => {
-      payload.type = "received";
-      let newMessages = messagepool;
-      newMessages.push(payload);
-      console.log(newMessages);
-      setMessagePool(newMessages);
-    });
   }, []);
 
   const getAllUsers = React.useCallback(async () => {
@@ -48,7 +37,6 @@ const Chat = (props) => {
       });
     }
   }, [users]);
-  console.log(messagepool);
   return (
     <Layout>
       <div style={{ height: "inherit" }}>
