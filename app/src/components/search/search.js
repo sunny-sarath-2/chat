@@ -2,7 +2,7 @@ import React from "react";
 import { Input } from "antd";
 const { Search: AntSearch } = Input;
 
-export const Search = () => {
+export const Search = (props) => {
   return (
     <AntSearch
       placeholder="search user"
@@ -11,7 +11,8 @@ export const Search = () => {
         background: "#f9f9f9",
       }}
       size="middle"
-      onSearch={(value) => console.log(value)}
+      onSearch={(value) => props.setSearchString(value)}
+      onChange={(e) => props.setSearchString(e.target.value)}
     />
   );
 };

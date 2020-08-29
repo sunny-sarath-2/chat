@@ -17,7 +17,7 @@ export const UserItem = ({ name, lastSeen, user, ...props }) => {
         props.setCurrentMessage(user);
       }}
     >
-      <Avatar />
+      <Avatar name={name} />
       <div style={{ marginLeft: 10 }}>
         <Title
           level={5}

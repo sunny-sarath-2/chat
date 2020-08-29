@@ -12,6 +12,7 @@ const Chat = (props) => {
   const history = useHistory();
   const [users, setUsers] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState(null);
+  const [searchString, setSearchString] = React.useState("");
 
   React.useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
@@ -37,6 +38,29 @@ const Chat = (props) => {
       });
     }
   }, [users]);
+
+  React.useEffect(() => {
+    if (searchString != "") {
+      searchUser();
+    } else {
+      getAllUsers();
+    }
+  }, [searchString]);
+
+  const searchUser = async () => {
+    try {
+      let result = await Services.searchUser(searchString);
+      if (!!result?.result?.length) {
+        setUsers(result.result);
+      }
+    } catch (error) {
+      notification.error({
+        message: "Something Went Wrong",
+        description: error?.response?.message,
+      });
+    }
+  };
+
   return (
     <Layout>
       <div style={{ height: "inherit" }}>
@@ -51,6 +75,9 @@ const Chat = (props) => {
               users={users}
               setCurrentMessage={(user) => {
                 setCurrentUser(user);
+              }}
+              setSearchString={(search) => {
+                setSearchString(search);
               }}
             />
           </Col>

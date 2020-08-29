@@ -7,7 +7,7 @@ export const UserList = ({ users, ...props }) => {
   return (
     <>
       <div style={{ display: "flex", height: 40, alignItems: "center" }}>
-        <Search />
+        <Search setSearchString={props.setSearchString} />
         <Button />
       </div>
       <div

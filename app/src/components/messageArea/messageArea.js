@@ -15,6 +15,7 @@ class MessageArea extends React.Component {
     this.state = {
       messages: [],
       senderId: user._id,
+      senderName: user.user_name,
     };
     this.messagesEnd = React.createRef();
     this.getMessages = this.getMessages.bind(this);
@@ -99,9 +100,17 @@ class MessageArea extends React.Component {
           {Array.isArray(messages)
             ? messages.map((message, index) =>
                 message?.reciver_id == this.state.senderId ? (
-                  <MessageInbox key={index} message={message.message} />
+                  <MessageInbox
+                    key={index}
+                    message={message.message}
+                    name={this.props?.user?.user_name}
+                  />
                 ) : message?.sender_id == this.state.senderId ? (
-                  <MessageSent key={index} message={message.message} />
+                  <MessageSent
+                    key={index}
+                    message={message.message}
+                    name={this.state.senderName}
+                  />
                 ) : null
               )
             : null}

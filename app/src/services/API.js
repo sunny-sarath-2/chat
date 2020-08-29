@@ -8,5 +8,7 @@ const Services = {
   getMessageByUsers: (payload) =>
     serviceBase.post("/api/messages/get-by-user", payload),
   signUp: (payload) => serviceBase.post("/api/user/create", payload),
+  searchUser: (searchString) =>
+    serviceBase.get(`/api/user/search/${searchString}`),
 };
 export default Services;

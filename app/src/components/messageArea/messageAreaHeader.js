@@ -17,7 +17,7 @@ export const MessageAreaHeader = ({ name }) => {
         background: "#f9f9f9",
       }}
     >
-      <Avatar />
+      <Avatar name={name} />
       <div style={{ marginLeft: 10 }}>
         <Title level={4} style={{ marginBottom: 0 }}>
           {name}
