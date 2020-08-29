@@ -9,7 +9,7 @@ const bodyParser = require("body-parser");
 const config = require("./services/config");
 const { verify_token } = require("./services/common/common");
 require("./services/models/db//mongo");
-
+const { saveMessages } = require("./services/services/messages.services");
 //middleware
 app.use(verify_token);
 app.use(express.static(path.join(__dirname, "app/build")));
@@ -38,17 +38,18 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname + "/app/build", "", "index.html"));
 });
 
-var users = [];
 io.on("connection", (socket) => {
   socket.on("setUser", (id) => {
     socket.join(id);
-    users.push({ id, socketId: socket.id });
   });
   socket.on("chat", ({ to_id, payload }) => {
-    let user = users.filter((user) => user.id == to_id);
-    console.log(payload, user);
-
-    io.to(user[0].id).emit("sendChat", payload);
+    console.log(payload, to_id);
+    io.to(to_id).emit("sendChat", payload);
+    saveMessages({
+      sender_id: payload.sender,
+      reciver_id: payload.reciver,
+      message: payload.message,
+    });
   });
   socket.on("disconnect", (data) => {
     console.log(socket.id);
