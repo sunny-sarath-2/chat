@@ -12,3 +12,9 @@ exports.createUser = (user) => {
   let newUser = new User(user);
   return newUser.save();
 };
+
+exports.searchUser = (searchText) => {
+  return User.find({
+    user_name: { $regex: searchText },
+  });
+};

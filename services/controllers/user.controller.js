@@ -2,6 +2,7 @@ const {
   getAllUsers,
   createUser,
   forgetPassword,
+  searchUser,
 } = require("../services/users.services");
 const { outputFormat, decodeJWT } = require("../common/common");
 let Joi = require("joi");
@@ -56,6 +57,24 @@ exports.createUser = async (req, res) => {
     res
       .status(200)
       .json(outputFormat(await createUser(user), "user created", 200, null));
+  } catch (error) {
+    res.status(406).json(outputFormat(null, error.message, 406, error));
+  }
+};
+
+exports.searchUser = async (req, res) => {
+  try {
+    console.log(req.params);
+    res
+      .status(200)
+      .json(
+        outputFormat(
+          await searchUser(req.params.searchString),
+          "user list",
+          200,
+          null
+        )
+      );
   } catch (error) {
     res.status(406).json(outputFormat(null, error.message, 406, error));
   }
