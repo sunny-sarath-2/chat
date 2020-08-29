@@ -2,7 +2,7 @@ import { notification } from "antd";
 import Services from "../services/API";
 
 export const appController = {
-  verifyToken: async (history, login = false) => {
+  verifyToken: async (history, login = false, returnUrl = "/login") => {
     try {
       const accessToken = localStorage.getItem("accessToken");
       if (!accessToken) {
@@ -19,7 +19,7 @@ export const appController = {
           description: error?.response?.message,
         });
       }
-      history.push("/login");
+      history.push(returnUrl);
     }
   },
 };

@@ -1,9 +1,11 @@
+const secrect = require("../secrect.json");
+
 module.exports = {
   errors: {
     showDebug: false,
   },
   database: {
-    server: "127.0.0.1:27017",
+    server: secrect.database,
     database: "chat",
   },
 

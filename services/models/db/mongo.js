@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { server, database } = require("../../config");
 
-const uri = `mongodb://${server}/${database}`;
+const uri = `mongodb+srv://${server}/${database}`;
 
 mongoose
   .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })

@@ -11,7 +11,7 @@ const SignUp = () => {
   const history = useHistory();
 
   React.useEffect(() => {
-    verifyToken(history, true);
+    verifyToken(history, true, "/sign-up");
   }, []);
 
   const onSubmit = React.useCallback(async () => {
