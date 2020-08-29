@@ -2,13 +2,21 @@ import React from "react";
 import { Search } from "../search/search";
 import { Button } from "../button/button";
 import { UserItem } from "../userItem/userItem";
+import { Popconfirm } from "antd";
 
 export const UserList = ({ users, ...props }) => {
   return (
     <>
       <div style={{ display: "flex", height: 40, alignItems: "center" }}>
         <Search setSearchString={props.setSearchString} />
-        <Button />
+        <Popconfirm
+          title="Are you sure to delete the chat?"
+          onConfirm={props.deleteChat}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button text="Clear Chat" />
+        </Popconfirm>
       </div>
       <div
         style={{

@@ -61,6 +61,25 @@ const Chat = (props) => {
     }
   };
 
+  const deleteChat = React.useCallback(async () => {
+    try {
+      let user = JSON.parse(localStorage.getItem("user"));
+      let result = await Services.deleteMessageByUser({ sender_id: user._id });
+      if (result.status == 200) {
+        setCurrentUser(null);
+        notification.success({
+          message: "Chat Deleted Successfully",
+          description: `${result.result.n} conversations deleted`,
+        });
+      }
+    } catch (error) {
+      notification.error({
+        message: "Something Went Wrong",
+        description: error?.response?.message,
+      });
+    }
+  }, []);
+
   return (
     <Layout>
       <div style={{ height: "inherit" }}>
@@ -79,6 +98,7 @@ const Chat = (props) => {
               setSearchString={(search) => {
                 setSearchString(search);
               }}
+              deleteChat={deleteChat}
             />
           </Col>
           <Col

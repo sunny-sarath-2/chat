@@ -1,7 +1,7 @@
 import React from "react";
 import { Button as AntButton } from "antd";
 
-export const Button = ({ text }) => {
+export const Button = ({ text, onClick }) => {
   return (
     <AntButton
       style={{
@@ -9,6 +9,7 @@ export const Button = ({ text }) => {
         background: "linear-gradient(to right,#ef8564, #ea63a2)",
         color: "#fff",
       }}
+      onClick={onClick}
     >
       {text}
     </AntButton>

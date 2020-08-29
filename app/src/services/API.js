@@ -10,5 +10,7 @@ const Services = {
   signUp: (payload) => serviceBase.post("/api/user/create", payload),
   searchUser: (searchString) =>
     serviceBase.get(`/api/user/search/${searchString}`),
+  deleteMessageByUser: (payload) =>
+    serviceBase.delete("/api/messages/delete", payload),
 };
 export default Services;
