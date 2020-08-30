@@ -35,7 +35,12 @@ function getHeaders(url) {
 }
 
 function getUrl(url) {
-  return `http://localhost:8081${url}`;
+  const timestamp = new Date().getTime();
+  // const separator = url.includes("?") ? "&" : "?";
+  //noinspection JSUnresolvedVariable
+
+  // return `${url}`;
+  return `https://chatingbox.herokuapp.com${url}`;
 }
 
 /**

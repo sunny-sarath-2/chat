@@ -5,7 +5,7 @@ import * as serviceWorker from "./serviceWorker";
 import io from "socket.io-client";
 import { SocketProvider } from "socket.io-react";
 
-const socket = io.connect("http://localhost:8081/", {
+const socket = io.connect("https://chatingbox.herokuapp.com/", {
   test: "qwe",
 });
 
