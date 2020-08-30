@@ -72,6 +72,6 @@ app.use((error, req, res, next) => {
 });
 
 //server
-server.listen(process.env.PORT, () => {
-  console.log(process.env.PORT);
+server.listen(config.httpPort, () => {
+  console.log(config.httpPort);
 });
