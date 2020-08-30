@@ -3,7 +3,7 @@ module.exports = {
     showDebug: false,
   },
   database: {
-    server: ENV["database"],
+    server: process.env.database,
     database: "chat",
   },
 
